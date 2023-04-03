@@ -1,3 +1,4 @@
+import csv
 class Item:
     """
     Класс для представления товара в магазине.
@@ -13,7 +14,7 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
-        self.name = name
+        self.__name = name
         self.price = price
         self.quantity = quantity
 
@@ -33,6 +34,33 @@ class Item:
         """
         self.price = self.price * self.pay_rate
 
+    @property
+    def name(self) -> str:
+        """Возвращает имя товара"""
+        return self.__name
+
+    @name.setter
+    def name(self, value: str) -> None:
+        """Проверяет, что длина наименования товара не больше 10 симвовов"""
+        if len(value) > 10:
+            raise ValueError("The name is below eligibility criteria ")
+        else:
+            self.__name = value
+
+    @classmethod
+    def instantiate_from_csv(cls):
+        cls.all.clear()
+        """инициализирующий экземпляры класса `Item` данными из файла _src/items.csv"""
+        with open('../items.csv', encoding="windows-1251") as csvfile:
+            reader = csv.DictReader(csvfile, delimiter=",")
+            for i in reader:
+                item = Item(i["name"], i["price"], i["quantity"])
+    @staticmethod
+    def string_to_number(string_number: str) -> int:
+        try:
+            return int(string_number)
+        except ValueError:
+            return int(string_number[0:string_number.find(".")])
 
 
 
