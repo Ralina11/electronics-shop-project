@@ -1,4 +1,5 @@
 import csv
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -14,6 +15,7 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
+        super().__init__()
         self.__name = name
         self.price = price
         self.quantity = quantity
@@ -67,3 +69,9 @@ class Item:
 
     def __str__(self):
         return f"{self.__name}"
+
+    def __add__(self, other):
+        """ сложение по количеству товара в магазине"""
+        if not isinstance(other, Item):
+            raise TypeError("Item must be an instance of Item")
+        return  self.quantity + other.quantity
