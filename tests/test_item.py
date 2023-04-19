@@ -2,6 +2,7 @@
 import pytest
 from src.item import *
 from src.phone import Phone
+from src.keyboard import KeyBoard
 
 
 @pytest.fixture
@@ -56,4 +57,16 @@ def test_repr(item2):
 def test_add(item2):
     test_1 = Item("Melon", 100, 50)
     assert (item2 + test_1)
+
+@pytest.fixture()
+def item3():
+    return KeyBoard('Dark Project KD87A', 9600, 5)
+
+def test_change_lang(item3):
+    assert str(item3.language) == "EN"
+    item3.change_lang()
+    assert str(item3.language) == "RU"
+
+def test_str(item3):
+    assert str(item3) == "Dark Project KD87A"
     
