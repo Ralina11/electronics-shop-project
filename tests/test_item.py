@@ -69,4 +69,11 @@ def test_change_lang(item3):
 
 def test_str(item3):
     assert str(item3) == "Dark Project KD87A"
-    
+
+def test_instantiate_from_csv(item2):
+    item2.instantiate_from_csv(path="../src/itemms.csv")
+    assert "Item not found"
+
+def test_instantiate_from_csv2(item2):
+    item2.instantiate_from_csv(path="../src/items")
+    assert "Файл item.csv поврежден"

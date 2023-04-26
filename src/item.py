@@ -1,4 +1,5 @@
 import csv
+from src.InstantiateCSV import *
 
 class Item:
     """
@@ -50,13 +51,26 @@ class Item:
             self.__name = value
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, path: str ="../src/items.csv"):
         cls.all.clear()
+        all_info =[]
+
         """инициализирующий экземпляры класса `Item` данными из файла _src/items.csv"""
-        with open('../items.csv', encoding="windows-1251") as csvfile:
-            reader = csv.DictReader(csvfile, delimiter=",")
-            for i in reader:
-                item = Item(i["name"], i["price"], i["quantity"])
+        try:
+            with open(path, encoding="windows-1251") as csvfile:
+                reader = csv.DictReader(csvfile, delimiter=",")
+                count = 0
+                for i in reader:
+                    item = Item(i["name"], i["price"], i["quantity"])
+                    if len(i) != 3:
+                        raise InstantiateCSVError
+        except InstantiateCSVError:
+            csv_error = InstantiateCSVError()
+            print(csv_error)
+        except FileNotFoundError:
+            print("Item not found")
+
+
     @staticmethod
     def string_to_number(string_number: str) -> int:
         try:
