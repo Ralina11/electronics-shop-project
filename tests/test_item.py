@@ -1,8 +1,13 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
+import contextlib
+from this import s
+
 import pytest
 from src.item import *
 from src.phone import Phone
 from src.keyboard import KeyBoard
+import io
+
 
 
 @pytest.fixture
@@ -71,8 +76,9 @@ def test_str(item3):
     assert str(item3) == "Dark Project KD87A"
 
 def test_instantiate_from_csv(item2):
-    item2.instantiate_from_csv(path="../src/itemms.csv")
-    assert "Item not found"
+    with contextlib.redirect_stdout(s):
+        item2.instantiate_from_csv(path="../src/itemms.csv")
+    assert s.getvalue() == f'Файл поврежден.\n'
 
 def test_instantiate_from_csv2(item2):
     item2.instantiate_from_csv(path="../src/items")
